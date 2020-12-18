@@ -1,6 +1,6 @@
 ### KIS ###
 
 * iPad category app
-* Xocde 7.1
+* Xocde 12.2
 * Objective-C
 * language: Italian

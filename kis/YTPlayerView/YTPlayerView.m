@@ -720,9 +720,10 @@ NSString static *const kYTPlayerStaticProxyRegexPattern = @"^https://content.goo
 
   NSString *embedHTML = [NSString stringWithFormat:embedHTMLTemplate, playerVarsJsonString];
   [self.webView loadHTMLString:embedHTML baseURL: self.originURL];
-  [self.webView setDelegate:self];
-  self.webView.allowsInlineMediaPlayback = YES;
-  self.webView.mediaPlaybackRequiresUserAction = NO;
+    self.webView.navigationDelegate = self;
+    
+//  self.webView.allowsInlineMediaPlayback = YES;
+//  self.webView.mediaPlaybackRequiresUserAction = NO;
   return YES;
 }
 
@@ -795,7 +796,8 @@ NSString static *const kYTPlayerStaticProxyRegexPattern = @"^https://content.goo
  * @return JavaScript response from evaluating code.
  */
 - (NSString *)stringFromEvaluatingJavaScript:(NSString *)jsToExecute {
-  return [self.webView stringByEvaluatingJavaScriptFromString:jsToExecute];
+    
+    return @"";
 }
 
 /**
@@ -809,12 +811,12 @@ NSString static *const kYTPlayerStaticProxyRegexPattern = @"^https://content.goo
 }
 
 #pragma mark Exposed for Testing
-- (void)setWebView:(UIWebView *)webView {
+- (void)setWebView:(WKWebView *)webView {
   _webView = webView;
 }
 
-- (UIWebView *)createNewWebView {
-    UIWebView *webView = [[UIWebView alloc] initWithFrame:self.bounds];
+- (WKWebView *)createNewWebView {
+    WKWebView *webView = [[WKWebView alloc] initWithFrame:self.bounds];
     webView.autoresizingMask = (UIViewAutoresizingFlexibleWidth | UIViewAutoresizingFlexibleHeight);
     webView.scrollView.scrollEnabled = NO;
     webView.scrollView.bounces = NO;

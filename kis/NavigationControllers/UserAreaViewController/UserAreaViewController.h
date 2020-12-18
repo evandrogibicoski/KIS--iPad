@@ -7,15 +7,16 @@
 //
 
 #import <UIKit/UIKit.h>
+#import <WebKit/WebKit.h>
 #import "SideMenuViewController.h"
 
-@interface UserAreaViewController : SideMenuViewController <UICollectionViewDataSource, UICollectionViewDelegate, UICollectionViewDelegateFlowLayout, UIWebViewDelegate>
+@interface UserAreaViewController : SideMenuViewController <UICollectionViewDataSource, UICollectionViewDelegate, UICollectionViewDelegateFlowLayout, WKNavigationDelegate>
 
 @property (weak, nonatomic) IBOutlet UILabel *lblTitle;
 @property (weak, nonatomic) IBOutlet UICollectionView *collectionView;
 
 @property (weak, nonatomic) IBOutlet UIView *pdfContainterView;
-@property (weak, nonatomic) IBOutlet UIWebView *pdfWebView;
+@property (weak, nonatomic) IBOutlet WKWebView *pdfWebView;
 @property (weak, nonatomic) IBOutlet UIActivityIndicatorView *pdfActivity;
 @property (weak, nonatomic) IBOutlet UILabel *lblPdfTitle;
 

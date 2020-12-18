@@ -31,6 +31,8 @@
     
     m_arrPromos = [[NSMutableArray alloc] init];
     [self getDatasFromServer];
+    
+    self.pdfWebView.navigationDelegate = self;
 }
 
 - (void)didReceiveMemoryWarning {
@@ -133,11 +135,11 @@
     [self.view bringSubviewToFront:self.pdfContainterView];
     [self.pdfActivity setHidden:NO];
     [self.pdfActivity startAnimating];
-    self.pdfWebView.delegate = self;
+    self.pdfWebView.navigationDelegate = self;
     
     self.pdfWebView.autoresizingMask = UIViewAutoresizingFlexibleWidth | UIViewAutoresizingFlexibleHeight | UIViewAutoresizingFlexibleLeftMargin | UIViewAutoresizingFlexibleRightMargin;
     [self.pdfWebView setContentMode:UIViewContentModeScaleAspectFit];
-    [self.pdfWebView setScalesPageToFit:YES];
+//    [self.pdfWebView setScalesPageToFit:YES];
     
     [self.pdfWebView loadRequest:request];
    
@@ -155,28 +157,23 @@
     */
 }
 
-#pragma mark - UIWebView Delegate
+#pragma mark - WKWebView Delegate
 
-- (void)webViewDidFinishLoad:(UIWebView *)webView
+-(void)webView:(WKWebView *)webView didFinishNavigation:(WKNavigation *)navigation
 {
     [self.pdfActivity stopAnimating];
     [self.pdfActivity setHidden:YES];
 }
 
-- (void)webView:(UIWebView *)webView didFailLoadWithError:(nullable NSError *)error
+-(void)webView:(WKWebView *)webView didFailNavigation:(WKNavigation *)navigation withError:(NSError *)error
 {
     NSLog(@"Load pdf error: %@", error);
-//    [self.pdfActivity stopAnimating];
-//    self.pdfWebView.delegate = nil;
-//    [self.pdfContainterView setHidden:YES];
-//    UIAlertView *alert = [[UIAlertView alloc] initWithTitle:nil message:@"Load Failed!" delegate:nil cancelButtonTitle:@"Ok" otherButtonTitles:nil, nil];
-//    [alert show];
 }
 
 - (IBAction)onPDFClose:(id)sender
 {
     [self.pdfActivity stopAnimating];
-    self.pdfWebView.delegate = nil;
+    self.pdfWebView.navigationDelegate = nil;
     [self.pdfContainterView setHidden:YES];
 }
 

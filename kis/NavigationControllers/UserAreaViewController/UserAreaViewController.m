@@ -59,8 +59,8 @@
         } else
         {
             //NSLog(@"Success: %@ %@", response, responseObject);
-            m_arrPromos = (NSMutableArray*)responseObject;
-            NSLog(@"%@", m_arrPromos);
+            self->m_arrPromos = (NSMutableArray*)responseObject;
+            NSLog(@"%@", self->m_arrPromos);
             [self.collectionView reloadData];
         }
     }];
@@ -135,32 +135,27 @@
     [self.view bringSubviewToFront:self.pdfContainterView];
     [self.pdfActivity setHidden:NO];
     [self.pdfActivity startAnimating];
-    self.pdfWebView.delegate = self;
+    self.pdfWebView.navigationDelegate = self;
     
     self.pdfWebView.autoresizingMask = UIViewAutoresizingFlexibleWidth | UIViewAutoresizingFlexibleHeight | UIViewAutoresizingFlexibleLeftMargin | UIViewAutoresizingFlexibleRightMargin;
     [self.pdfWebView setContentMode:UIViewContentModeScaleAspectFit];
-    [self.pdfWebView setScalesPageToFit:YES];
+//    [self.pdfWebView setScalesPageToFit:YES];
     
     [self.pdfWebView loadRequest:request];
 }
 
-#pragma mark - UIWebView Delegate
-
-- (void)webViewDidFinishLoad:(UIWebView *)webView
+#pragma mark - WKWebView Delegate
+-(void) webView:(WKWebView *)webView didFinishNavigation:(WKNavigation *)navigation
 {
     [self.pdfActivity stopAnimating];
     [self.pdfActivity setHidden:YES];
 }
 
-- (void)webView:(UIWebView *)webView didFailLoadWithError:(nullable NSError *)error
+-(void) webView:(WKWebView *)webView didFailNavigation:(WKNavigation *)navigation withError:(NSError *)error
 {
     NSLog(@"%@", error);
-//    [self.pdfActivity stopAnimating];
-    //self.pdfWebView.delegate = nil;
-    //[self.pdfContainterView setHidden:YES];
-//    UIAlertView *alert = [[UIAlertView alloc] initWithTitle:nil message:@"Load Failed!" delegate:nil cancelButtonTitle:@"Ok" otherButtonTitles:nil, nil];
-//    [alert show];
 }
+
 
 - (IBAction)onPDFClose:(id)sender
 {
